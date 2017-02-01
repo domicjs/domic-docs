@@ -1,0 +1,4 @@
+[kronk]
+markdown_template = '/doc'
+markdown_block = 'markdown'
+

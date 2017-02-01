@@ -1,0 +1,4 @@
+build/**/*.html
+node_modules
+domic.json
+domic.yml

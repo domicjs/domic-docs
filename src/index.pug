@@ -1,0 +1,13 @@
++++
+
+title = "Root page"
+
++++
+
+extends /base
+
+block content
+  h1 Domic rules. #{$files.size}
+
+  each f in $files.in('docs').renderable()
+    p We have <a href="#{f.name}.html">#{f.name}</a>
