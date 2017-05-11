@@ -1,0 +1,9 @@
+{#
+
+#}
+
+{% extends "theme/base" %}
+
+{% block content %}
+<h1>Hello !</h1>
+{% endblock %}

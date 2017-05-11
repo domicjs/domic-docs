@@ -1,0 +1,6 @@
+{% extends 'theme/base' %}
+
+{% block body %}
+  {{super()}}
+  {% block markdown %}{% endblock %}
+{% endblock %}

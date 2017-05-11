@@ -1,4 +1,6 @@
-Observables Documentation
-=========================
+<!--
+title = 'Observables Documentation'
+-->
 
-
+{{ title }}
+===========

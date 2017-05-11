@@ -1,0 +1,3 @@
+[kronk]
+# Theme files are not to be rendered.
+render = false

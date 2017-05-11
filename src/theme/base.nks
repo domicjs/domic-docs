@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ page_title }}</title>
+    <meta charset='utf-8'/>
+
+    {#-
+      We want open graph's properties to be set up easily through data,
+      since a lot of it is common across files.
+    #}
+    {% for type, content in og %}<meta property='og:{{type}}' content='{{content}}'/>{% endfor %}
+
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    {% block body %}{% endblock %}
+  <body>
+</html>

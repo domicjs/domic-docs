@@ -1,0 +1,14 @@
+{#
+[og]
+type = 'website'
+#}
+
+{% extends "theme/base" %}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block body %}
+  {{ myvar }}
+{% endblock %}
