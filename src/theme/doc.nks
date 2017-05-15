@@ -2,5 +2,13 @@
 
 {% block body %}
   {{super()}}
+
+  <nav class='tutorial'>
+    <a href='/yo'>01 - Getting Started</a>
+    <a href='/yo'>02 - Using JSX</a>
+    <a href='/yo'>03 - Observables</a>
+    <a href='/yo'>04 - Decorators</a>
+  </nav>
+
   {% block markdown %}{% endblock %}
 {% endblock %}
