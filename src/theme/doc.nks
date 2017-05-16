@@ -28,19 +28,41 @@
   {{super()}}
 
   <nav class='tutorial'>
-    <a href='/yo'>01 - Getting Started</a>
-    <a href='/yo'>02 - Using JSX</a>
-    <a href='/yo'>03 - Observables</a>
-    <a href='/yo'>04 - Decorators</a>
+    <a href='/tutorial/01-getting-started.html'>01 - Getting Started</a>
+    <a href='/tutorial/02-using-jsx.html'>02 - Using JSX</a>
+    <a href='/tutorial/03-observables.html'>03 - Observables</a>
+    <a href='/tutorial/04-decorators.html'>04 - Decorators</a>
   </nav>
 
-  {% block markdown %}{% endblock %}
+  <div class='container'>
+    {% block markdown %}{% endblock %}
+  </div>
 
   <style>
     .CodeMirror {
-      font-size: 18px;
+      font-size: 14px;
       height: auto;
+      border-radius: 3px;
+      flex-basis: 0;
+      flex-grow: 1;
     }
+
+    .container {
+      width: 1024px;
+      margin: 0 auto;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5em;
+    }
+
+    .row > *:nth-child(1) {
+      padding-right: 32px;
+      width: 420px;
+    }
+
   </style>
 
   <script type='text/javascript'>
