@@ -11,7 +11,6 @@
     {% for type, content in og %}<meta property='og:{{type}}' content='{{content}}'/>{% endfor %}
 
     {% block head %}
-      <link rel='stylesheet' href='/prism.css'/>
       <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
       <style type='text/css'>
         body { font-family: 'Nunito', sans-serif; }
@@ -20,6 +19,5 @@
   </head>
   <body>
     {% block body %}{% endblock %}
-    <script src='/prism.js' type='text/javascript'></script>
   <body>
 </html>

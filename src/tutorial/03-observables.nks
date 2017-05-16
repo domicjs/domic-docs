@@ -1,7 +1,25 @@
 
 <p>
   Observables are at the very core of Domic and are the foundation
-  of its dynamic nature.
+  of its dynamic nature. They basically are a box holding a value
+  that alerts the developper when it changes.
+</p>
+
+<p>
+  <b>They are completely synchronous,
+  and their value can always be accessed at all times.</b>
+</p>
+
+<p>All of their methods are completely type-checked, even those
+  that transform their types or access subproperties or array
+  items.</p>
+
+<p>As with any Observer pattern implementation, domic's Observables
+  are potentially subject to memory leaks when not paying attention.
+  To avoid them, always use the <code>Controller#observe()</code>
+  method or the <code>observe()</code> decorator to actually observe
+  a value. These functions make sure that there are no leaks.
+  In short : <b>avoid calling directly the addObserver() method on Observables</b>.
 </p>
 
 <h3>Creating an Observable</h3>
@@ -17,6 +35,7 @@
     <p>While you can use <code>new Observable(...)</code> to create an observable,
       the <code>o(/* value */)</code> function shorthand is actually preferred.
     </p>
+
 
   </div>
 
@@ -99,11 +118,12 @@ b.set(null) // OK
   </div>
 
 <textarea class='editor'>{% filter escape -%}
-var obs = o('some content')
-document.appendChild(<h3>{obs}</h3>)
+var o_content = o('some content')
+document.appendChild(<h3>{o_content}</h3>)
 
-// At some point later...
-obs.set('some other content')
+// At some point later, it becomes <h3>some other content</h3>
+// in the DOM
+o_content.set('some other content')
 {%- endfilter -%}</textarea>
 </div>
 
@@ -121,11 +141,11 @@ obs.set('some other content')
   </div>
 
 <textarea class='editor'>{% filter escape -%}
-var obs = o('myclass')
-document.appendChild(<h3 class={obs}>My Title</h3>)
+var o_class = o('myclass')
+document.appendChild(<h3 class={o_class}>My Title</h3>)
 
 // At some point later...
-obs.set('myotherclass')
+o_class.set('myotherclass')
 {%- endfilter -%}</textarea>
 </div>
 
