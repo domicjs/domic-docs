@@ -38,33 +38,6 @@
     {% block markdown %}{% endblock %}
   </div>
 
-  <style>
-    .CodeMirror {
-      font-size: 14px;
-      height: auto;
-      border-radius: 3px;
-      flex-basis: 0;
-      flex-grow: 1;
-    }
-
-    .container {
-      width: 1024px;
-      margin: 0 auto;
-    }
-
-    .row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1.5em;
-    }
-
-    .row > *:nth-child(1) {
-      padding-right: 32px;
-      width: 420px;
-    }
-
-  </style>
-
   <script type='text/javascript'>
     var editors = Array.from(document.getElementsByClassName('editor'))
 

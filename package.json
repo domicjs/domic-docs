@@ -2,6 +2,9 @@
   "name": "domic-docs",
   "private": true,
   "kronk": {},
+  "scripts": {
+    "watch": "parallel -u ::: 'kronk -w' 'stylus --include-css -w -o build/style.css styl/style.styl'"
+  },
   "dependencies": {
     "json2yaml": "^1.1.0",
     "kronk": "^0.1.2",

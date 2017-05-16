@@ -12,9 +12,7 @@
 
     {% block head %}
       <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-      <style type='text/css'>
-        body { font-family: 'Nunito', sans-serif; }
-      </style>
+      <link href='/style.css' rel='stylesheet'/>
     {% endblock %}
   </head>
   <body>
