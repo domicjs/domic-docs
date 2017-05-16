@@ -1,0 +1,20 @@
+
+
+<textarea class='editor'>{% filter escape -%}
+function zo(a: string) {
+  return a + ''
+}
+
+async function MyComponent(attrs: MyComponentAttributes, children: DocumentFragment): Node {
+  return <div class='zob'>{children}<a href='javascript:'>hey !{pouet}some more text</a></div>
+}
+{%- endfilter -%}</textarea>
+
+
+<p>Of course, this is not always true</p>
+
+<textarea class='editor'>{% filter escape -%}
+import {o} from 'domic'
+
+var a = o(3)
+{%- endfilter -%}</textarea>

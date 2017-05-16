@@ -1,5 +1,29 @@
 {% extends './base' %}
 
+{# pastel-on-dark or abcdef #}
+{%- set theme = 'pastel-on-dark' -%}
+
+{% block head %}
+  {{ super() }}
+
+  {% macro cm(name) %}
+    {% if name.endsWith('.js') -%}
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.2/{{name}}' type='text/javascript'></script>
+    {% else %}
+      <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.2/{{name}}'/>
+    {% endif %}
+  {% endmacro %}
+
+  {{ cm('codemirror.min.js') }}
+  {{ cm('codemirror.min.css') }}
+  {{ cm('mode/javascript/javascript.min.js') }}
+  {{ cm('mode/jsx/jsx.min.js') }}
+  {{ cm('mode/xml/xml.min.js') }}
+  {{ cm('theme/' + theme + '.min.css') }}
+
+{% endblock %}
+
+
 {% block body %}
   {{super()}}
 
@@ -11,4 +35,24 @@
   </nav>
 
   {% block markdown %}{% endblock %}
+
+  <style>
+    .CodeMirror {
+      font-size: 18px;
+      height: auto;
+    }
+  </style>
+
+  <script type='text/javascript'>
+    var editors = Array.from(document.getElementsByClassName('editor'))
+
+    editors.forEach(function (e) {
+      CodeMirror.fromTextArea(e, {
+        mode: {name: "jsx", base: {name: "javascript", typescript: true}},
+        theme: '{{theme}}',
+        readOnly: true
+      })
+    })
+  </script>
+
 {% endblock %}

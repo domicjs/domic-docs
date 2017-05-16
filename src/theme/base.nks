@@ -12,6 +12,10 @@
 
     {% block head %}
       <link rel='stylesheet' href='/prism.css'/>
+      <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+      <style type='text/css'>
+        body { font-family: 'Nunito', sans-serif; }
+      </style>
     {% endblock %}
   </head>
   <body>

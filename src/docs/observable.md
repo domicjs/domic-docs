@@ -2,22 +2,14 @@
 title = 'Observables Documentation'
 -->
 
-{{ page_title }}
-===========
+# {{ title }}
 
-Hey..
+## Some subtitle
 
-```typescript
+Observables are the fundament to domic's way of doing things.
 
-function (a: string) {
-  return a + ''
-}
+They work so well !
 
-function MyComponent(attrs: MyComponentAttributes, children: DocumentFragment): Node {
-  return <div class='zob'>{children}</div>
-}
-
-```
 
 ```typescript
 function doIt(a: string, b: Observable): Node
