@@ -1,4 +1,4 @@
-build/**/*.html
+build
 node_modules
 domic.json
 domic.yml
