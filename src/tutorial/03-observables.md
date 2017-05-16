@@ -32,7 +32,6 @@ the `o(/* value */)` function shorthand is actually preferred.
 <textarea class='editor'>
 var ob = new Observable(4) // Observable<number>
 var ob2 = new Observable('hello') // Observable<string>
-
 // As a shorthand, use the o() function
 var ob3 = o(false) // Observable<boolean>
 var ob4 = o([] as string[]) // Observable<string[]>
