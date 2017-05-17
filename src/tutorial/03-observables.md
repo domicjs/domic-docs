@@ -5,7 +5,8 @@ that alerts the developper when it changes.
 
 **They are completely synchronous, and their value can always be accessed at all times.**
 
-All of their methods are completely type-checked, even those
+Special care has been taken to make sure all of their methods
+are completely type-checked, even those
 that transform their types or access subproperties or array
 items.
 
@@ -29,13 +30,14 @@ While you can use `new Observable(...)` to create an observable,
 the `o(/* value */)` function shorthand is actually preferred.
 </div>
 
-<textarea class='editor'>
+```typescript
 var ob = new Observable(4) // Observable<number>
 var ob2 = new Observable('hello') // Observable<string>
 // As a shorthand, use the o() function
 var ob3 = o(false) // Observable<boolean>
 var ob4 = o([] as string[]) // Observable<string[]>
-</textarea></div>
+```
+</div>
 
 ### Getting and setting its value
 
@@ -46,21 +48,22 @@ have a value that you can get with the <code>get()</code> method.
 To set its value, simply use the <code>set()</code> method.
 </div>
 
-<textarea class='editor'>
+```typescript
 var a = new Observable(3)
 var b = a.get() // 3
 a.set(42)
-var c = a.get() // 42</textarea>
+var c = a.get() // 42
+```
 </div>
 
 <div class='row'><div>
 Observables are generically typed to prevent a wrong data flow in your application.
 
-Since domic is built with typescript's strict flags, <code>null</code> and <code>undefined</code>
-are also checked.
+Domic is built with typescript's strict flags. <code>null</code> and <code>undefined</code>
+are thus checked if you opt-in the strict mode as well.
 </div>
 
-<textarea class='editor'>
+```typescript
 var a = o(1) // a is Observable<number>
 a.set('hello') // Error !
 a.set(null) // Error !
@@ -68,6 +71,7 @@ a.set(4) // OK
 
 var b = o(1 as number | null) // b is Observable<number|null>
 b.set(null) // OK</textarea>
+```
 </div>
 
 ### Observing value changes
@@ -90,13 +94,14 @@ Note however that for this to work, <em>mounting</em> needs to be setup
 as per the instructions in the previous chapter.
 </div>
 
-<textarea class='editor'>
+```typescript
 var o_content = o('some content')
 document.appendChild(<h3>{o_content}</h3>)
 
 // At some point later, it becomes <h3>some other content</h3>
 // in the DOM
-o_content.set('some other content')</textarea>
+o_content.set('some other content')
+```
 </div>
 
 
@@ -109,12 +114,13 @@ While this will work as intended, read the chapter about special attributes,
 as the behaviour for class is actually more complex than just using strings.
 </div>
 
-<textarea class='editor'>
+```typescript
 var o_class = o('myclass')
 document.appendChild(<h3 class={o_class}>My Title</h3>)
 
 // At some point later...
-o_class.set('myotherclass')</textarea>
+o_class.set('myotherclass')
+```
 </div>
 
 ### The MaybeObservable type

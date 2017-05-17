@@ -14,7 +14,9 @@ h1, h2, h3, h4, h5
   color: $blue
 
 h3
-  border-bottom: 2px solid lighten($blue, 80%) !important
+  background-color: lighten($blue, 90%)
+  padding: 2px 8px
+  border-radius: 3px
 
 b, em, strong
   color: $sail
@@ -22,7 +24,6 @@ b, em, strong
 code
   color: $sea
   font-family: 'monaco', 'consolas', monospace
-  background-color: lighten($sail, 80%)
   border-radius: 3px
 
 body
@@ -54,13 +55,36 @@ nav.tutorial
   justify-content: center
   align-items: center
 
-  padding: 8px 0
-
-  background-color: $sunlit
+  background-color: $sail
 
   & > a
+    padding: 8px 0
+    color: white
     text-decoration: none
     margin-left: 16px
 
     &:first-child
       margin-left: 0
+
+.container pre
+  background-color: darken($blue, 40%)
+  border-radius: 3px
+  padding: 8px
+  width: 540px
+  code
+    color: rgba(255, 255, 255, 0.80)
+
+.hljs-string
+  color: $sunlit
+
+.hljs-keyword
+  color: $sail
+
+.hljs-tag
+  color: $foaming
+
+// .hljs-built_in
+// color: $blue
+
+.hljs-comment
+  color: rgba(255, 255, 255, 0.3)
