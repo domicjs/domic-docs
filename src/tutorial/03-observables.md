@@ -109,9 +109,9 @@ o_content.set('some other content')
 Similarily, node attributes can also be observables and updated
 whenever one changes.
 
-This example shows the class attribute being linked to an observable.
-While this will work as intended, read the chapter about special attributes,
-as the behaviour for class is actually more complex than just using strings.
+This example shows the `class` attribute being linked to an observable.
+While this will work as intended, read the chapter about special attributes, as `class` is handled differently to allow for
+a lot of flexibility.
 </div>
 
 ```typescript
@@ -124,6 +124,26 @@ o_class.set('myotherclass')
 </div>
 
 ### The MaybeObservable type
+
+```typescript
+type MaybeObservable<T> = T | Observable<T>
+
+export class Test<T> extends Test2<T> {
+
+  constructor() {
+    super()
+  }
+
+  @onmount
+  myMethod() {
+
+  }
+
+  render(children: DocumentFragment): HTMLElement {
+
+  }
+}
+```
 
 ### Playing with properties
 
