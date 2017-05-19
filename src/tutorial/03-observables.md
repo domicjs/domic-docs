@@ -18,8 +18,11 @@ a value. These functions are leak-proof with the following gotcha ;
 the observing is tied to the presence of the underlying Node in
 the DOM.
 
+Note also that this is **not** a change detection library. You *must* use
+the `set()` method if you want changes to be acted upon.
 
 ### Creating an Observable
+
 
 <div class='row'><div>
 When creating an observable, you always must give a value. Most of the
@@ -30,7 +33,7 @@ While you can use `new Observable(...)` to create an observable,
 the `o(/* value */)` function shorthand is actually preferred.
 </div>
 
-```typescript
+```tsx
 var ob = new Observable(4) // Observable<number>
 var ob2 = new Observable('hello') // Observable<string>
 // As a shorthand, use the o() function
@@ -48,7 +51,7 @@ have a value that you can get with the <code>get()</code> method.
 To set its value, simply use the <code>set()</code> method.
 </div>
 
-```typescript
+```tsx
 var a = new Observable(3)
 var b = a.get() // 3
 a.set(42)
@@ -63,7 +66,7 @@ Domic is built with typescript's strict flags. <code>null</code> and <code>undef
 are thus checked if you opt-in the strict mode as well.
 </div>
 
-```typescript
+```tsx
 var a = o(1) // a is Observable<number>
 a.set('hello') // Error !
 a.set(null) // Error !
@@ -84,7 +87,7 @@ if we're using two different Observables on the same underlying value.
 
 Memory leaks !
 
-### Using it with TSX
+### Using them with TSX
 
 <div class='row'><div>
 Observables can be used as children of tsx code. Any change to them
@@ -94,7 +97,7 @@ Note however that for this to work, <em>mounting</em> needs to be setup
 as per the instructions in the previous chapter.
 </div>
 
-```typescript
+```tsx
 var o_content = o('some content')
 document.appendChild(<h3>{o_content}</h3>)
 
@@ -114,7 +117,7 @@ While this will work as intended, read the chapter about special attributes, as 
 a lot of flexibility.
 </div>
 
-```typescript
+```tsx
 var o_class = o('myclass')
 document.appendChild(<h3 class={o_class}>My Title</h3>)
 
@@ -125,28 +128,163 @@ o_class.set('myotherclass')
 
 ### The MaybeObservable type
 
-```typescript
+<div class='row'><div>
+We often want to be able to use code using both observables or
+regular values. Domic provides a type which helps programmers
+with this.
+
+Most of the domic functions, methods and components make extensive
+use of it.
+
+The `o()` function also has a strong link with `MaybeObservable`.
+If given an observable, it will simply return it instead of creating
+a new one.
+</div>
+
+```tsx
 type MaybeObservable<T> = T | Observable<T>
 
-export class Test<T> extends Test2<T> {
-
-  constructor() {
-    super()
-  }
-
-  @onmount
-  myMethod() {
-
-  }
-
-  render(children: DocumentFragment): HTMLElement {
-
-  }
+// The o() function is defined like so:
+function o<T>(arg: MaybeObservable<T>): Observable<T> {
+  /* ... */
 }
+
+var o_str = o('string') // o_str is now Observable<string>
+var o_str2 = o(o_str) // o_str2 === o_str,
 ```
+</div>
+
+<div class='row'><div>
+
+A variable typed as `MaybeObservable` of an `Insertable` subtype (`number`, `string` and `Node`)
+can be inserted into TSX code as-is and domic will handle it.
+
+So will the `observe` decorator and the `Controller#observe()` method,
+which are in this way similar to `o()`.
+
+As a rule of thumb when designing components, always try to type your attributes
+as `MaybeObservable<...>`, and treat them as pure observables in your code.
+</div>
+
+```tsx
+interface Attrs extends BasicAttributes {
+  myattr: MaybeObservable<string>
+}
+
+function Test(attrs: Attrs, ch: DocumentFragment): Element {
+  return <div $$={observe(attrs.myattr, value =>
+    /* value is typed as string here */
+  )}>
+    <h3>My attribute: {attrs.myattr}</h3>
+    {children}
+  </div>
+}
+
+var o_test = o('hello !')
+
+// Both are valid
+var t1 = <Test myattr='some_value'>Content</Test>
+var t2 = <Test myattr={o_test}>Content</Test>
+
+// ... later on
+o_test.set('bye !')
+// will update t2 to <h3>My attribute: bye !</h3>
+```
+
+</div>
 
 ### Playing with properties
 
+<div class='row'><div>
+
+`Observable` is not limited to basic types such as `number` or `string`.
+When using more complex types, there are several ways of interacting
+with the underlying object properties.
+
+To directly set or get a property, use the `get()` and `set()` methods,
+this time with a property name parameter.
+
+**These methods are type safe**. They rely on the `keyof` operator introduced
+to typescript in version `2.1`.
+</div>
+
+```tsx
+var o_test = o({a: 1, b: 2})
+o_test.get('a') // 1
+
+// the the 'b' property to 3
+o_test.set('b', 3)
+o_test.get('b') // 3
+
+// It is of course also possible to do
+o_test.get().b // 3
+```
+</div>
+
+<div class='row'><div>
+
+**Warning**: If you don't use `set(...)` when updating a value
+the observers won't be notified.
+
+</div>
+
+```tsx
+var o_test = o({a: 1, b: 2})
+o_test.addObserver(value => console.log(value))
+o_test.set('b', 3) // prints "{a: 1, b: 3}"
+
+// prints nothing, even though the value did change.
+o_test.get().b = 3
+```
+</div>
+
+<div class='row'><div>
+
+Enter the `p()` method, which creates a new `Observable` which monitors
+a parent's property.
+
+It is typed as `PropObservable<OriginalType, PropertyType>` and will act
+**exactly** like `Observable<PropertyType>`.
+</div>
+
+```tsx
+type MyType = {a: number, b: string}
+
+// Observable<MyType>
+var o_test = o({a: 1, b: 'hello'} as MyType)
+
+// PropObservable<MyType, string>
+var o_b = o_test.p('b')
+
+// It is castable
+var o_b2: Observable<string> = o_test.p('b')
+
+// And it is perfectly OK to do this
+var t = <Test myattr={o_b}>...</Test>
+```
+</div>
+
+
 ### Working with arrays
+
+<div class='row'><div>
+
+Observables can also work with arrays. They even have a few methods that deal
+exclusively with them.
+
+It is possible to create a `PropObservable<T[], T>`, or to set an array item
+using `set()` by using numbers as properties.
+</div>
+
+```tsx
+var o_arr = o([1, 2, 3])
+o_arr.set(0, 4) // now equals [4, 2, 3]
+
+// This will now watch the second element
+var o_second = o_arr.p(1)
+// its type is PropObservable<number[], number>
+
+```
+</div>
 
 Observables can do a lot more than what was shown here and will be talked about some more in a later chapter.

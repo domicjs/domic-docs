@@ -18,10 +18,12 @@ h3
   padding: 2px 8px
 
 b, em, strong
-  color: $sail
+  color: $blue
 
 code
-  color: $sea
+  color: $blue
+  background-color: $blue + 95%
+  padding: 0 4px
   font-family: 'monaco', 'consolas', monospace
   border-radius: 3px
 
@@ -36,17 +38,21 @@ body
   flex-grow: 1
 
 .container
-  width: 1024px
+  max-width: 1024px
   margin: 0 auto
 
 .row
   display: flex
   align-items: flex-start
   margin-bottom: 48px
+  width: 100%
 
-.row > *:nth-child(1)
-  padding-right: 32px
-  width: 420px
+  & > *:nth-child(1)
+    padding-right: 32px
+    width: 420px
+  & > *:nth-child(2)
+    flex-grow: 1
+    flex-basis: 0
 
 nav.tutorial
   display: flex
@@ -65,25 +71,53 @@ nav.tutorial
     &:first-child
       margin-left: 0
 
+
+$basecolor = $blue + 80%
+$xml = $basecolor + 180deg
+
 .container pre
-  background-color: darken($blue, 40%)
+  background-color: $basecolor - 90%
   border-radius: 3px
   padding: 8px
-  width: 540px
+  width: auto
+  overflow-x: auto
   code
+    background-color: rgba(255, 255, 255, 0)
+    padding: 0
     color: rgba(255, 255, 255, 0.80)
 
-.hljs-string
-  color: $sunlit
+code
+  .string
+    color: $basecolor + 30deg
+  .number, .literal
+    color: $sunlit - 90deg
 
-.hljs-keyword
-  color: $sail
+  .keyword
+    color: $basecolor - 40%
 
-.hljs-tag
-  color: $foaming
+  .tag > .string
+    color: $xml + 40%
+  .jsx
+    color: alpha($xml, 0.65)
+  .tag
+    color: $xml
+  .entity
+    color: alpha($xml - 30deg, 0.65)
+  .attribute
+    color: $xml - 20%
 
-// .hljs-built_in
-// color: $blue
+  .type, .type > .string
+    color: $basecolor + 60deg
 
-.hljs-comment
-  color: rgba(255, 255, 255, 0.3)
+  .function, .decorator, .function-call
+    color: $basecolor
+
+
+  .toplevel.typescript
+    color: rgba(255, 255, 255, 0.8)
+
+  // .hljs-built_in
+  // color: $blue
+
+  .comment
+    color: rgba(255, 255, 255, 0.3)
