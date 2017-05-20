@@ -10,21 +10,14 @@ are completely type-checked, even those
 that transform their types or access subproperties or array
 items.
 
-As with any Observer pattern implementation, domic's Observables
-are potentially subject to memory leaks when not paying attention.
-To avoid them, always use the `Controller#observe()`
-method or the `observe()` decorator to actually observe
-a value. These functions are leak-proof with the following gotcha ;
-the observing is tied to the presence of the underlying Node in
-the DOM.
-
-Note also that this is **not** a change detection library. You *must* use
+Note that this is **not** a change detection library. You *must* use
 the `set()` method if you want changes to be acted upon.
 
 ### Creating an Observable
 
 
 <div class='row'><div>
+
 When creating an observable, you always must give a value. Most of the
 time, this value will be enough for typescript to guess what kind of
 Observable you're dealing with.
@@ -45,10 +38,11 @@ var ob4 = o([] as string[]) // Observable<string[]>
 ### Getting and setting its value
 
 <div class='row'><div>
-Unlike other libraries such as RxJS, domic's observables always
-have a value that you can get with the <code>get()</code> method.
 
-To set its value, simply use the <code>set()</code> method.
+Unlike other libraries such as RxJS, domic's observables always
+have a value that you can get with the `get()` method.
+
+To set its value, simply use the `set()` method.
 </div>
 
 ```tsx
@@ -60,6 +54,7 @@ var c = a.get() // 42
 </div>
 
 <div class='row'><div>
+
 Observables are generically typed to prevent a wrong data flow in your application.
 
 Domic is built with typescript's strict flags. <code>null</code> and <code>undefined</code>
@@ -79,17 +74,84 @@ b.set(null) // OK</textarea>
 
 ### Observing value changes
 
-FIXME: talk about the fact that there is an underlying notify()
-method and as such changes may not always be what we expect of them.
+<div class='row'><div>
 
-CAUTION: careful with the underlying value, we can lose updates
-if we're using two different Observables on the same underlying value.
+At its core, the Observable class provides an `addObserver()` method which takes a callback
+as its first argument that will be called with the new value. This method
+returns a function that can be used to "unwatch" the changes.
 
-Memory leaks !
+By default, adding an observer **immediately calls it**. See the API to
+prevent this behaviour.
+
+> The observing facilities are pretty much opt-in. Anything that happens outside
+> a `set()` will not be reported to the observers.
+</div>
+
+```tsx
+var o_str = o('hello')
+
+// prints 'hello'
+var unreg = o_str.addObserver(newvalue => 
+  console.log(newvalue)
+)
+
+// prints 'bye'
+o_str.set('bye')
+
+unreg()
+
+// doesn't print now we're unregistered.
+o_str.set('hello again')
+```
+</div>
+
+
+<div class='row'><div>
+
+> Using `addObserver()` has another caveat ; as with any Observer pattern
+> library, not cleaning up the observers when the observable is not used anymore
+> can lead to memory leaks.
+
+To avoid problems, it is recommended to use the `observe` decorator or the
+`observe()` method of the `Controller` (or `Component`) class.
+
+Basically, it will tie the observing of the Observable to the presence of
+a Node in the DOM, which is one of the most common use case.
+
+Note that there is also an `observe()` method on domic-app's `Service` class
+which purpose is more or less the same.
+
+</div>
+
+```tsx
+setupMounting(document.body)
+
+var o_str = o('hello')
+
+// nothing is printed now
+var d = <div $$={observe(o_str, value => console.log(value))}>
+  ...
+</div>
+
+// still nothing is printed
+o_str.set('bye')
+
+// doesn't print right now, but will print 'bye' once the mouting
+// is executed.
+document.body.appendChild(d)
+
+// ... at some point later
+document.body.removeChild(d)
+// ... and a little later
+o_str.set('bye') // will not print anything.
+```
+</div>
+
 
 ### Using them with TSX
 
 <div class='row'><div>
+
 Observables can be used as children of tsx code. Any change to them
 and their value will automatically be updated into the DOM.
 
@@ -109,6 +171,7 @@ o_content.set('some other content')
 
 
 <div class='row'><div>
+
 Similarily, node attributes can also be observables and updated
 whenever one changes.
 
@@ -129,6 +192,7 @@ o_class.set('myotherclass')
 ### The MaybeObservable type
 
 <div class='row'><div>
+
 We often want to be able to use code using both observables or
 regular values. Domic provides a type which helps programmers
 with this.
@@ -223,8 +287,8 @@ o_test.get().b // 3
 
 <div class='row'><div>
 
-**Warning**: If you don't use `set(...)` when updating a value
-the observers won't be notified.
+> If you don't use `set(...)` when updating a value
+> the observers won't be notified.
 
 </div>
 
@@ -240,7 +304,7 @@ o_test.get().b = 3
 
 <div class='row'><div>
 
-Enter the `p()` method, which creates a new `Observable` which monitors
+The `p()` method creates a new `Observable` that monitors
 a parent's property.
 
 It is typed as `PropObservable<OriginalType, PropertyType>` and will act
@@ -264,6 +328,7 @@ var t = <Test myattr={o_b}>...</Test>
 ```
 </div>
 
+> FIXME observing properties and parent.
 
 ### Working with arrays
 

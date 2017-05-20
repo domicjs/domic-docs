@@ -1,3 +1,6 @@
+@import "stylus-reset"
+reset()
+
 // Palette is adrift in dream
 
 $blue = #0B486B
@@ -13,16 +16,38 @@ html, body
 h1, h2, h3, h4, h5
   color: $blue
 
+p + p, p + blockquote, blockquote + p, .row + blockquote, blockquote + .row, .row + p, p + .row
+  margin-top: 1em
+
 h3
   text-align: center
-  padding: 2px 8px
+  margin: 48px 0
 
 b, em, strong
   color: $blue
 
+blockquote
+  margin: 0
+  background-color: $sunlit
+  position: relative
+  border-radius: 3px
+  padding: 1em
+  padding-left: 64px
+
+  &::before
+    position: absolute
+    content: '⚠'
+    font-size: 32px
+    color: $sunlit - 80%
+    display: block
+    font-weight: bold
+    left: 18px
+    top: 50%
+    transform: translateY(-50%)
+
 code
   color: $blue
-  background-color: $blue + 95%
+  background-color: alpha($blue, 5%)
   padding: 0 4px
   font-family: 'monaco', 'consolas', monospace
   border-radius: 3px
@@ -40,12 +65,25 @@ body
 .container
   max-width: 1024px
   margin: 0 auto
+  margin-top: 64px
+
+  & > p
+    width: 720px
+    margin-left: auto
+    margin-right: auto
 
 .row
   display: flex
-  align-items: flex-start
-  margin-bottom: 48px
+  align-items: center
   width: 100%
+  position: relative
+
+  border-radius: 3px
+  background-color: rgba(0, 0, 0, 0.07)
+  padding: 16px 8px
+  
+  & + &
+    margin-top: 32px
 
   & > *:nth-child(1)
     padding-right: 32px
@@ -87,6 +125,8 @@ $xml = $basecolor + 180deg
     color: rgba(255, 255, 255, 0.80)
 
 code
+  font-size: 14px
+  line-height: 18px
   .string
     color: $basecolor + 30deg
   .number, .literal

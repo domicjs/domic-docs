@@ -8,6 +8,7 @@
   "dependencies": {
     "json2yaml": "^1.1.0",
     "kronk": "^0.1.2",
+    "stylus-reset": "0.0.1",
     "typedoc": "^0.5.5"
   }
 }
