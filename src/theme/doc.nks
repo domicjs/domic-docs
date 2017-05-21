@@ -12,6 +12,7 @@
   {{super()}}
 
   <nav class='tutorial'>
+    <a href='/tutorial/00-in-a-nutshell.html'>00 - In a Nutshell</a>
     <a href='/tutorial/01-getting-started.html'>01 - Getting Started</a>
     <a href='/tutorial/02-using-jsx.html'>02 - Using JSX</a>
     <a href='/tutorial/03-observables.html'>03 - Observables</a>

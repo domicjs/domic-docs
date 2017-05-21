@@ -1,6 +1,11 @@
 
 ### Foreword
 
+> FIXME maybe we should do a "teaser" page somewhere that just
+> showcases domic's main strength.
+
+> FIXME Move the TodoMVC example somewhere else.
+
 Domic applications are pure javascript. The base html markup you need is
 exclusively what you would put in `<head>` and an empty body, as all the
 DOM Nodes will be created by domic.

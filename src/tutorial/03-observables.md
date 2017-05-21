@@ -21,9 +21,6 @@ the `set()` method if you want changes to be acted upon.
 When creating an observable, you always must give a value. Most of the
 time, this value will be enough for typescript to guess what kind of
 Observable you're dealing with.
-
-While you can use `new Observable(...)` to create an observable,
-the `o(/* value */)` function shorthand is actually preferred.
 </div>
 
 ```tsx
@@ -91,7 +88,7 @@ prevent this behaviour.
 var o_str = o('hello')
 
 // prints 'hello'
-var unreg = o_str.addObserver(newvalue => 
+var unreg = o_str.addObserver(newvalue =>
   console.log(newvalue)
 )
 
@@ -115,8 +112,11 @@ o_str.set('hello again')
 To avoid problems, it is recommended to use the `observe` decorator or the
 `observe()` method of the `Controller` (or `Component`) class.
 
-Basically, it will tie the observing of the Observable to the presence of
-a Node in the DOM, which is one of the most common use case.
+These will make it so `addObserver()` is called whenever the
+Node is inserted into the document, and the unregister function
+whenever it is removed. You can add and remove the Node as much
+as you want, it will still work. This is accomplished thanks
+to the mounting mechanism.
 
 Note that there is also an `observe()` method on domic-app's `Service` class
 which purpose is more or less the same.
@@ -298,7 +298,7 @@ o_test.addObserver(value => console.log(value))
 o_test.set('b', 3) // prints "{a: 1, b: 3}"
 
 // prints nothing, even though the value did change.
-o_test.get().b = 3
+o_test.get().b = 4
 ```
 </div>
 
@@ -328,7 +328,35 @@ var t = <Test myattr={o_b}>...</Test>
 ```
 </div>
 
-> FIXME observing properties and parent.
+<div class='row'><div>
+
+PropObservables can be observed just like Observable. In this
+case, the observers only see the updates on the property.
+
+When a `set()` is called on a PropObservable, the
+parent's observers are called, even though the parent itself
+has not changed value (in a `===` sense).
+
+When a `set()` is called on the parent, the `PropObservable`'s
+observers are called as well.
+</div>
+
+```tsx
+var o_test = o({a: 1, b: 'hey'})
+var o_b = o_test.p('b')
+
+// prints {a: 1, b: 'hey'} and 'hey'
+o_test.addObserver(val, => console.log(val))
+o_b.addObserver(val => console.log(val))
+
+// prints {a: 1, b: 'ho'} and 'ho'
+o_b.set('ho')
+
+// prints {a: 2, b: 'hulo'} and 'hulo'
+o_test.set({a: 2, b: 'hulo'})
+```
+</div>
+
 
 ### Working with arrays
 
