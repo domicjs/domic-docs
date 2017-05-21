@@ -9,25 +9,38 @@ $sea = #79BD9A
 $foaming = #A8DBA8
 $sunlit = #CFF09E
 
+apply_spacing($margin = 16px)
+  & > *
+    margin-top: $margin
+    &:first-child
+      margin-top: 0
+
 html, body
   padding: 0
   margin: 0
+  font-size: 14px
+  line-height: 18px
 
 h1, h2, h3, h4, h5
   color: $blue
 
-p + p, p + blockquote, blockquote + p, .row + blockquote, blockquote + .row, .row + p, p + .row
-  margin-top: 1em
 
 h3
   text-align: center
-  margin: 48px 0
+  padding: 16px
+
 
 b, em, strong
   color: $blue
 
+p, blockquote, h1, h2, h3, h4, h5, h6, .row
+
+  margin-top: 16px
+  &:first-child
+    margin-top: 0
+
+
 blockquote
-  margin: 0
   background-color: $sunlit
   position: relative
   border-radius: 3px
@@ -45,6 +58,7 @@ blockquote
     top: 50%
     transform: translateY(-50%)
 
+
 code
   color: $blue
   background-color: alpha($blue, 5%)
@@ -52,36 +66,38 @@ code
   font-family: 'monaco', 'consolas', monospace
   border-radius: 3px
 
+
 body
   font-family: 'Nunito', sans-serif
 
+
 .CodeMirror
-  font-size: 14px
   height: auto !important
   border-radius: 3px
   flex-basis: 0
   flex-grow: 1
 
 .container
-  max-width: 1024px
-  margin: 0 auto
   margin-top: 64px
+  display: flex
+  flex-direction: column
+  align-items: center
 
-  & > p
-    width: 720px
-    margin-left: auto
-    margin-right: auto
+  & > *
+    width: 720px // will be redefined by most components
+
 
 .row
+
   display: flex
   align-items: center
-  width: 100%
+  width: 1024px
   position: relative
 
   border-radius: 3px
   background-color: rgba(0, 0, 0, 0.07)
   padding: 16px 8px
-  
+
   & + &
     margin-top: 32px
 
@@ -117,7 +133,6 @@ $xml = $basecolor + 180deg
   background-color: $basecolor - 90%
   border-radius: 3px
   padding: 8px
-  width: auto
   overflow-x: auto
   code
     background-color: rgba(255, 255, 255, 0)
@@ -125,8 +140,6 @@ $xml = $basecolor + 180deg
     color: rgba(255, 255, 255, 0.80)
 
 code
-  font-size: 14px
-  line-height: 18px
   .string
     color: $basecolor + 30deg
   .number, .literal

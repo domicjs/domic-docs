@@ -25,16 +25,29 @@ might not work in the json files) ;
 ```tsx
 {
   "compilerOptions": {
+    // generally useful for maximum compatibility
+    "target": "es5",
+
+    // useful if you're writing a library
+    "declaration": true,
 
     // Use modules through npm
     "module": "commonjs",
     "moduleResolution": "node",
 
+    // the following allow for real, nazi checking, which
+    // is a must in all serious projects.
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+
     // compile <tags> for use with a library that behaves like
-    // React, which is domic's case
+    // React, which is domic's case.
     "jsx": "react",
 
-    // transform all calls to use D(...) instead of
+    // transform all JSX calls to use D(...) instead of
     // React.createElement(). D is exported globally by domic if
     // nothing existed.
     "jsxFactory": "D",
@@ -57,40 +70,6 @@ a global variable of the same name. However, you will have to `import {d} from '
 in every. single. file. Your choice.
 
 Most of our project however use a more consistent tsconfig.json, along the lines of
-
-```tsx
-{
-  "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "declaration": true,
-
-    // useful for debugging
-    "sourceMap": true,
-
-    // the following allow for real, nazi checking, which
-    // is a must in all serious projects.
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-
-    "jsx": "react",
-    "jsxFactory": "D",
-    "experimentalDecorators": true,
-
-    // put the built files somewhere where they won't pollute your
-    // source code.
-    "outDir": "./build",
-    "lib": ["es6", "dom"]
-  },
-  "files": [
-    "./src/..."
-  ]
-}
-```
 
 A good tsconfig.json is all you should need to start with domic. For webpack
 examples, you might want to check [domic-seed](https://github.com/domicjs/domic-seed).
