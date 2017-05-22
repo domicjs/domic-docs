@@ -1,17 +1,18 @@
 
+Domic is a library for writing complex UIs for html/javascript in
+typescript. It puts the accent on *elegance* and *robustness* ;
+all the API is geared ease of use, clarity and very strict typing,
+leveraging typescript's type inferance system as much as possible.
+
+Its philosophy is that the DOM is a nice thing and that standards
+are nowadays respected enough by all the big players to actually
+do use them. In domic, there is no virtual-dom, no wrappers around
+it. We deal with Nodes, and we use the methods that they define,
+for which [there is ample documentation](https://developer.mozilla.org/en-US/docs/Web/API).
+
 This project focuses mainly on recent browsers (IE is typically not high on the
 priority list). It is not geared to make websites. Rather, it was built
 with Single Page Applications in the browser and on mobile in mind.
-
-It uses typescript **extensively**. As with any typescript library, it is
-perfectly usable by javascript users. Javascript usage is however
-not a focus. Great care is taken on the typing ; most of the time the classes and functions
-were built around the type inferer's way of understanding things and
-are designed to really help the developper in highlighting errors
-as soon as possible.
-
-Domic is all about the DOM. The abstraction level is pretty low ; everything
-is done to help directly playing with document Nodes.
 
 ### Use tsx code to directly create document nodes
 
@@ -29,6 +30,47 @@ document.body.appendChild(<div class='myclass'>
 </div>)
 ```
 
+
+
+
+### Use observables to bind values to the DOM
+
+Domic's Observable type is not RxJS's Observable. Rxjs defines an Observable
+simply as something that can be observed and that will notify observers.
+In domic, Observable is a value holder ; it has a value at its creation
+and will have until it ceases to exist. All operations on them are synchronous.
+
+Like RxJS however, Observables are subscribed to by observers who then are
+notified of changes happening inside them.
+
+In this example, `bind` binds an observable to an input ; whenever the user interacts with
+it, the observable's value is `set()` to the value. Inversely, whenever
+the observable is `set()` from elsewhere, the input updates to reflect
+the changes.
+
+```tsx
+
+var o_number = o(1) // Observable<number>
+var o_str = o('') // Observable<string>
+
+document.body.appendChild(<div>
+  <p>
+    The value here will be incremented everytime we
+    press the button: {o_number}
+    <button $$={click(ev => o_number.add(1))}>Add 1</button>
+  </p>
+
+  <p>This will follow whatever's inside the following input: {o_str}</p>
+  <input type='text' $$={bind(o_str)}/>
+
+  <p class={o_str}>This paragraph will have classes that are updated
+    whenever o_str changes.
+  </p>
+
+  <p class='static-class'></p>
+</div>)
+
+```
 
 ### Use decorators to manipulate nodes easily
 
@@ -52,41 +94,61 @@ document.body.appendChild(<div $$={[
 document.body.appendChild(d)
 ```
 
+### Use controllers when decorators are not enough
 
-### Use observables to bind values to the DOM
+Controllers can be bound to nodes. They offer a few more
+functionnalities than plain decorators. They can ;
 
-`bind()` and `click()` are just examples of the many useful decorators
-shipped with domic.
+- find other controllers on the same node
+  or on a parent Node **by type** -- and not by name, to avoid
+  collisions.
+- observe Observables without risking memory leaks.
+- easily run code when their node is being created, inserted into
+  the document or removed from it.
 
-`bind` binds an observable to an input ; whenever the user interacts with
-it, the observable's value is `set()` to the value. Inversely, whenever
-the observable is `set()` from elsewhere, the input updates to reflect
-the changes.
-
-The `MaybeObservable<T> = T | Observable<T>` is used everywhere for
-attributes for maximum flexibility.
+Use the `ctrl` decorator to bind them.
 
 ```tsx
 
-var o_number = o(1)
-var o_str = o('')
+class MyCtrl extends Controller {
 
-document.body.appendChild(<div>
-  <p>
-    The value here will be incremented everytime we
-    press the button: {o_number}
-    <button $$={click(ev => o_number.add(1))}>Add 1</button>
-  </p>
+  // You can have several @onmount
+  @onmount
+  someFunction() { // the function name is irrelevant
+    console.log(this.node, 'was inserted')
+  }
 
-  <p>This will follow whatever's inside the following input: {o_str}</p>
-  <input type='text' $$={bind(o_str)}/>
+  @onunmount
+  someOtherFunction(node: Element) {
+    // this.node is null now, to avoid unnecessary reference
+    // holding. It is given as an argument though if needed.
+    console.log('the node was removed')
+  }
 
-  <p class={o_str}>This paragraph will have classes that are updated
-    whenever o_str changes.
-  </p>
+  @onrender
+  yetAnotherMethod() {
+    console.log(this.node, 'was just created')
+  }
 
-  <p class='static-class'></p>
-</div>)
+  callMe() {
+    console.log('I was called')
+  }
+
+}
+
+class MyOtherCtrl extends Controller {
+  @onmount
+  helloWorld() {
+    // Will print 'I was called' everytime this controller's node
+    // is inserted into the document.
+    this.getController(Test).callMe()
+  }
+}
+
+// ctrl() accepts instances or classes, whichever is most useful then.
+document.body.appendChild(<div
+  $$={ctrl(new MyCtrl, MyOtherCtrl)}
+/>)
 
 ```
 
@@ -161,7 +223,8 @@ document.body.appendChild(
 
 Component Classes allow for packing code in a neater way and offer
 the added benefit of finding other components and communicate
-with them.
+with them, as they are Controllers themselves with just an added
+`attrs` property and `render()` method.
 
 ```tsx
 
@@ -231,7 +294,8 @@ derives from these concepts ;
 * TSX code creates **Elements** -- basically anything that gets
   rendered visually. For other node types, use
 * **Verbs**, to compose dynamically your documents
-* Elements can be decorated by **decorators**
+* Elements can be decorated by **decorators**,
+* or they can have **Controllers** bound to them for more functionality.
 * **Observables** can be bound to children, to attributes and used
   generally in an MVVM way.
 * **Components** help in code reuse and come in two flavors ; "stateless"

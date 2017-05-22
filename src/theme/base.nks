@@ -12,7 +12,7 @@
 
     {% block head %}
       <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"/>
-      <link href='<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">' rel='stylesheet'/>
+      <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet'/>
       <link href='/style.css' rel='stylesheet'/>
     {% endblock %}
   </head>

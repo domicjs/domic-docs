@@ -12,11 +12,15 @@
   {{super()}}
 
   <nav class='tutorial'>
-    <a href='/tutorial/00-in-a-nutshell.html'>00 - In a Nutshell</a>
-    <a href='/tutorial/01-getting-started.html'>01 - Getting Started</a>
-    <a href='/tutorial/02-using-jsx.html'>02 - Using JSX</a>
-    <a href='/tutorial/03-observables.html'>03 - Observables</a>
-    <a href='/tutorial/04-decorators.html'>04 - Decorators</a>
+    <a href='/tutorial/in-a-nutshell.html'>In a Nutshell</a>
+    <a href='/tutorial/getting-started.html'>Getting Started</a>
+    <a href='/tutorial/using-jsx.html'>Using JSX</a>
+    <a href='/tutorial/observables.html'>Observables</a>
+    <a href='/tutorial/controllers.html'>Controllers</a>
+    <a href='/tutorial/components.html'>Components</a>
+    <a href='/tutorial/special-attributes.html'>Special Attributes</a>
+    <a href='/tutorial/verbs.html'>Verbs</a>
+    <a href='/tutorial/advanced-observables.html'>Advanced Observables</a>
   </nav>
 
   <div class='container'>
