@@ -108,6 +108,9 @@ static objects, anything else must be "verbs", functions that
 return a `Node` (often `Comment`s) but whose mechanics involve adding
 or removing stuff around.
 
+This is a design decision to make the distinction between regular,
+displayable elements and dynamic code clear.
+
 ```tsx
 
 var o_bool = o(true)
@@ -226,9 +229,9 @@ concepts. Everything it does and everything that is built on it
 derives from these concepts ;
 
 * TSX code creates **Elements** -- basically anything that gets
-  rendered visually. For other types, use
+  rendered visually. For other node types, use
 * **Verbs**, to compose dynamically your documents
-* These Elements can be decorated by **decorators**
+* Elements can be decorated by **decorators**
 * **Observables** can be bound to children, to attributes and used
   generally in an MVVM way.
 * **Components** help in code reuse and come in two flavors ; "stateless"
