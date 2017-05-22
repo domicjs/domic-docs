@@ -161,6 +161,9 @@ code
     color: alpha($xml, 0.65)
   .tag
     color: $xml
+  .tag > .upper-start
+    color: $xml - 40%
+
   .entity
     color: alpha($xml - 30deg, 0.65)
   .attribute
@@ -174,6 +177,8 @@ code
 
   .in-jsx > .function-call > .upper-start
     color: $basecolor - 30deg - 40%
+
+
 
 
   .toplevel.typescript

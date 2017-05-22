@@ -1,13 +1,15 @@
 
 Domic is a library for writing complex UIs for html/javascript in
-typescript. It puts the accent on *elegance* and *robustness* ;
-all the API is geared ease of use, clarity and very strict typing,
+typescript. It puts the accent on **elegance** and **robustness** ;
+all the API is geared towards ease of use, clarity and very strict typing,
 leveraging typescript's type inferance system as much as possible.
 
 Its philosophy is that the DOM is a nice thing and that standards
 are nowadays respected enough by all the big players to actually
 do use them. In domic, there is no virtual-dom, no wrappers around
-it. We deal with Nodes, and we use the methods that they define,
+the DOM API, no template system, just pure DOM (with extra sugar).
+
+We deal with Nodes, and we use the methods that they define,
 for which [there is ample documentation](https://developer.mozilla.org/en-US/docs/Web/API).
 
 This project focuses mainly on recent browsers (IE is typically not high on the
@@ -24,6 +26,9 @@ or an array of any of those as children.
 ```tsx
 var something = 'something'
 var some_class = 'some classes'
+
+// The result of a TSX expression is Element and can thus
+// be appended directly to the DOM.
 document.body.appendChild(<div class='myclass'>
   This will print {something}
   <p class={some_class}>...</p>
@@ -179,6 +184,7 @@ var o_bool = o(true)
 var o_arr = o(['hello', 'how', 'are', 'you'])
 
 document.body.appendChild(<div>
+
   {DisplayIf(o_bool,
     value => <p>
       The condition is truthy and equals
@@ -233,6 +239,7 @@ interface TestAttrs extends BasicAttributes {
 }
 
 class Test extends Component {
+
   attrs: TestAttrs
 
   o_str = o('')

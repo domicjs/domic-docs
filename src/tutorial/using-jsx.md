@@ -1,13 +1,9 @@
 
-### Using TSX (JSX)
-
-Domic uses typescript's tsx variant to jsx.
-
 ### Insertable
 
 > string, number, Node, Observable of all the above.
 
-### Mouting
+### Mounting
 
 > mounting
 
@@ -15,4 +11,4 @@ Domic uses typescript's tsx variant to jsx.
 
 > decorators
 
-
+### The `d` function
