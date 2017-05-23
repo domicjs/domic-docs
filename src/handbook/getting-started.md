@@ -1,9 +1,6 @@
 
 ### Foreword
 
-> FIXME maybe we should do a "teaser" page somewhere that just
-> showcases domic's main strength.
-
 > FIXME Move the TodoMVC example somewhere else.
 
 Domic applications are pure javascript. The base html markup you need is
