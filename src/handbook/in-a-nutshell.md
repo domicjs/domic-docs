@@ -291,8 +291,7 @@ document.body.appendChild(
 ### ... and that's pretty much it !
 
 There is of course a lot to explore and discover. Observables are
-quite full-fledged and powerful and these examples barely graze
-everything domic has to offer.
+quite powerful and these examples barely graze what domic has to offer.
 
 This is however the nick of this library ; there are no other core
 concepts. Everything it does and everything that is built on it

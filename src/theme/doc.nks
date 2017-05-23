@@ -11,17 +11,16 @@
 {% block body %}
   {{super()}}
 
-  <nav class='tutorial'>
-    <a href='/tutorial/in-a-nutshell.html'>In a Nutshell</a>
-    <a href='/tutorial/getting-started.html'>Getting Started</a>
-    <a href='/tutorial/using-jsx.html'>Using JSX</a>
-    <a href='/tutorial/observables.html'>Observables</a>
-    <a href='/tutorial/controllers.html'>Controllers</a>
-    <a href='/tutorial/components.html'>Components</a>
-    <a href='/tutorial/special-attributes.html'>Special Attributes</a>
-    <a href='/tutorial/verbs.html'>Verbs</a>
-    <a href='/tutorial/advanced-observables.html'>Advanced Observables</a>
-    <a href='/tutorial/domic-app.html'>Domic-App</a>
+  <nav class='handbook'>
+    <a href='/handbook/in-a-nutshell.html'>In a Nutshell</a>
+    <a href='/handbook/getting-started.html'>Getting Started</a>
+    <a href='/handbook/using-jsx.html'>Using JSX</a>
+    <a href='/handbook/observables.html'>Observables</a>
+    <a href='/handbook/controllers.html'>Controllers</a>
+    <a href='/handbook/components.html'>Components</a>
+    <a href='/handbook/verbs.html'>Verbs</a>
+    <a href='/handbook/advanced-observables.html'>Advanced Observables</a>
+    <a href='/handbook/domic-app.html'>Domic-App</a>
   </nav>
 
   <div class='container'>
