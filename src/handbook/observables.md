@@ -27,7 +27,7 @@ var ob3 = o(false) // Observable<boolean>
 var ob4 = o([] as string[]) // Observable<string[]>
 ```
 
-### Getting and setting its valu
+### Getting and setting its value
 
 Unlike other libraries such as RxJS, domic's observables always
 have a value that you can get with the `get()` method.

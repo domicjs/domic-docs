@@ -225,6 +225,30 @@ var test = <div $$={[
 Consult the API to see how each of them expects to be called.
 
 
+### The Fragment Component
+
+In domic, any tsx code sends back an `Element`. `Fragment` is the only
+exception to this rule ; it sends back a `DocumentFragment`, which
+is **not** an `Element`. It is just there for convenience ;
+
+As convenient as it is, it should only be used for Observable transforms
+or to be generally put into verbs which can handle `DocumentFragment`
+pretending to be single values.
+
+> Never, ever, use a fragment as a return value of a component ! Classes, style,
+> ids and such can **not** be applied on them.
+
+```tsx
+import {Fragment as F} from 'domic'
+
+var o_will_change = o(1)
+var test = <div>
+  {o_will_change.tf(value => <F>
+    I have exactly {value} apple{value === 1 ? '' : 's'}
+  </F>)}
+</div>
+```
+
 ### The `d` function
 
 The `d` function powers the node creation of domic. It is defined
