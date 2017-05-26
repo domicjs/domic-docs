@@ -320,4 +320,86 @@ var o_second = o_arr.p(1)
 
 ```
 
-Observables can do a lot more than what was shown here and will be talked about some more in a later chapter.
+
+### Transforming to another type or value
+
+
+Observables can be tranformed. The transformed Observable is still linked
+to the original and can optionally set back a transformed value as well.
+
+```tsx
+var o_s = o('123') // Observable<string>
+var o_n = o_s.tf(val => parseFloat(val)) // one way observable
+
+o_s.set('333')
+o_n.get() === 333
+
+o_n.set(344)
+o_n.get() === 344
+o_s.get() !== '344' // o_s is still '333'
+
+
+var o_n2 = o_s.tf(
+  val => parseFloat(val),
+
+  // this is the set function.
+  // here original_obs === o_s
+  (original_obs, newval) => original_obs.set(newval)
+)
+
+o_n2.set(800)
+o_s.get() === '800'
+```
+
+
+### Merging multiple observables into one
+
+
+Use `o.merge()` to merge several Observables into one. Setting values
+inside the merged observable will forward the changes to the original
+observables.
+
+```tsx
+var o_a = o('string')
+var o_b = o(3)
+
+var o_merged = o.merge({a: o_a, b: o_b})
+
+o_merged.addObserver(({a, b}) => {
+  // a and b are correctly typed as string and number
+})
+
+o_merged.set('b', 4) // valid, o_b will change
+
+o_merged.p('b') === o_b // true !
+o_merged.set({a: 'hello !', b: 6}) // observers on o_a and o_b will be called.
+```
+
+
+### Using the IndexableObservable
+
+IndexableObservable is like `o.merge` except it doesn't need to know all
+the observables right from the start. Its limitation is that its sub-observables
+must all be of the same type.
+
+However, it is able to add or remove observables from its watched property,
+and you can use `for .. in` constructs with it.
+
+```tsx
+var o_a = o(3)
+var o_b = o(4)
+var o_id = o.indexable({a: o_a, b: o_b})
+
+o_id.get() // {a: 3, b: 4}
+o_id.p('a') === o_a
+
+o_id.addDependency('c', o(5))
+
+for (var name in o_id.get()) {
+  console.log(name, o_id.p(name).get()) // this is no problem.
+}
+```
+
+### This is it for now
+
+For more examples and a detail of all the methods, head for the API.
