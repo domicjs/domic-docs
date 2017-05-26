@@ -16,8 +16,7 @@
     <a href='/handbook/getting-started.html'>Getting Started</a>
     <a href='/handbook/using-jsx.html'>Using JSX</a>
     <a href='/handbook/observables.html'>Observables</a>
-    <a href='/handbook/controllers.html'>Controllers</a>
-    <a href='/handbook/components.html'>Components</a>
+    <a href='/handbook/controllers.html'>Controllers and Components</a>
     <a href='/handbook/verbs.html'>Verbs</a>
     <a href='/handbook/advanced-observables.html'>Advanced Observables</a>
     <a href='/handbook/domic-app.html'>Domic-App</a>
