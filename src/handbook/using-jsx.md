@@ -1,5 +1,5 @@
 
-### Insertable
+### The Insertable type
 
 Domic defines the `Insertable` type, which defines what can be
 inserted as TSX children. The definition is this :
@@ -29,6 +29,10 @@ Basically, if you want to insert anything else you will have to transform
 your variables into one of those types.
 
 ### Mounting
+
+Mounting is a very important concept in domic. A Node is said to be
+**mounted** when it is used inside the document. It is otherwise said
+to be **unmounted**.
 
 To achieve its magic, domic relies on the [`MutationObserver` API](https://developer.mozilla.org/en/docs/Web/API/MutationObserver).
 
