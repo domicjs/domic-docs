@@ -18,10 +18,15 @@ with Single Page Applications in the browser and on mobile in mind.
 
 ### Use tsx code to directly create document nodes
 
-TSX is used to produce `Element`s.
+TSX is used to produce `Element`s. As such, you can `appendChild` the result of
+a tsx expression to any node that can hold a child.
+
+```tsx
+document.body.appendChild(<div>My div !</div>)
+```
 
 You can insert `string`, `number`, `Node`, `Observable<string|number|Node>`
-or an array of any of those as children.
+or an array of any of those as children to a node created in tsx.
 
 ```tsx
 var something = 'something'
@@ -34,8 +39,6 @@ document.body.appendChild(<div class='myclass'>
   <p class={some_class}>...</p>
 </div>)
 ```
-
-
 
 
 ### Use observables to bind values to the DOM
@@ -54,7 +57,6 @@ the observable is `set()` from elsewhere, the input updates to reflect
 the changes.
 
 ```tsx
-
 var o_number = o(1) // Observable<number>
 var o_str = o('') // Observable<string>
 
@@ -74,7 +76,6 @@ document.body.appendChild(<div>
 
   <p class='static-class'></p>
 </div>)
-
 ```
 
 ### Use decorators to manipulate nodes easily
@@ -114,7 +115,6 @@ functionnalities than plain decorators. They can ;
 Use the `ctrl` decorator to bind them.
 
 ```tsx
-
 class MyCtrl extends Controller {
 
   // You can have several @onmount
@@ -154,31 +154,30 @@ class MyOtherCtrl extends Controller {
 document.body.appendChild(<div
   $$={ctrl(new MyCtrl, MyOtherCtrl)}
 />)
-
 ```
 
 
 ### Use "verbs" in your TSX code for dynamic display.
 
-`DisplayIf` and `Repeat` are the most basic verbs that end up being
-used almost everywhere.
+Verbs indicate dynamicity. Unlike nodes produced by tsx which are
+real and generally possess a visual representation, they usually
+use comments as markers in the document to add or remove content
+dynamically.
 
-There are others, such as `RepeatScroll` which
-repeats items in array until there are enough displayed and waits
-for the user to scroll to the bottom before adding more.
+Good examples of verbs are `DisplayIf` and `Repeat` which are generally
+used pretty much in any project.
 
-In general, verbs represent parts of your document that are subject
-to appear/disappear or generally move around.
-
-There is no `<Repeat .../>` component ; TSX creates concrete and
-static objects, anything else must be "verbs", functions that
-return a `Node` (often `Comment`s) but whose mechanics involve adding
-or removing stuff around.
-
-This is a design decision to make the distinction between regular,
-displayable elements and dynamic code clear.
+They could be created with tsx code too, but the design decision was
+that there had to be a clear difference in spirit as well as in the code
+between elements with a clear graphical representation and others that
+are just here to help with structure.
 
 ```tsx
+// This is a full example that would work if compiled and used.
+import {o, DisplayIf, Repeat, setupMounting} from 'domic'
+import {Button} from 'domic-material'
+
+setupMounting(document)
 
 var o_bool = o(true)
 var o_arr = o(['hello', 'how', 'are', 'you'])
@@ -196,12 +195,11 @@ document.body.appendChild(<div>
     </p>
   )}
 
-  <button $$={click(ev => o_bool.toggle())}>Toggle</button>
+  <Button click={ev => o_bool.toggle()}>Toggle</Button>
 
   {Repeat(o_arr, o_item => <p>{o_item}</p>)}
 
 </div>)
-
 ```
 
 
@@ -233,7 +231,6 @@ with them, as they are Controllers themselves with just an added
 `attrs` property and `render()` method.
 
 ```tsx
-
 interface TestAttrs extends BasicAttributes {
   title: MaybeObservable<title>
 }
@@ -285,7 +282,6 @@ document.body.appendChild(
     <Test2 value='testing stuff'/>
   </Test>
 )
-
 ```
 
 ### ... and that's pretty much it !

@@ -237,7 +237,7 @@ is **not** an `Element`. It is just there for convenience ;
 
 As convenient as it is, it should only be used for Observable transforms
 or to be generally put into verbs which can handle `DocumentFragment`
-pretending to be single values.
+pretending to be single values (which is most of them).
 
 > Never, ever, use a fragment as a return value of a component ! Classes, style,
 > ids and such can **not** be applied on them.
@@ -249,6 +249,10 @@ var o_will_change = o(1)
 var test = <div>
   {o_will_change.tf(value => <F>
     I have exactly {value} apple{value === 1 ? '' : 's'}
+  </F>)}
+
+  {Repeat(o_arr, o_item => <F>
+    prop1 is: {o_item.p('prop1')} and prop2: <strong>{o_item.p('prop2')}
   </F>)}
 </div>
 ```
