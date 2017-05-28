@@ -1,4 +1,0 @@
-[kronk.nunjucks]
-extends = 'theme/doc'
-block = 'markdown'
-
