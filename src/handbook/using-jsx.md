@@ -243,7 +243,7 @@ pretending to be single values (which is most of them).
 > ids and such can **not** be applied on them.
 
 ```tsx
-import {Fragment as F} from 'domic'
+import {Fragment as F, o, Repeat} from 'domic'
 
 var o_will_change = o(1)
 var test = <div>
@@ -252,7 +252,7 @@ var test = <div>
   </F>)}
 
   {Repeat(o_arr, o_item => <F>
-    prop1 is: {o_item.p('prop1')} and prop2: <strong>{o_item.p('prop2')}
+    prop1 is: {o_item.p('prop1')} and prop2: <strong>{o_item.p('prop2')}</strong>
   </F>)}
 </div>
 ```
